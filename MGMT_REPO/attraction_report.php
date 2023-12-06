@@ -59,19 +59,13 @@
         function getTopAttractions($conn, $startDate, $endDate)
         {
             $attractions = [];
-            $sql = " SELECT
-            R.Name AS RevenueType,
-            AVG(RE.Revenue) AS AverageRevenue
-        FROM
-            Revenue_Event RE
-        JOIN
-            Revenue_Type R ON RE.RID = R.RID
-        WHERE
-            RE.Date BETWEEN '$startDate' AND '$endDate'
-        GROUP BY
-            R.Name
-        ORDER BY
-            R.Name; ";
+            $sql = " SELECT RT.Name AS AttractionName, SUM(RE.Revenue) AS TotalRevenue 
+            FROM revenue_event RE 
+            JOIN revenue_type RT ON RE.RID = RT.RID 
+            WHERE RT.RID BETWEEN 1 AND 6 AND RE.Date BETWEEN '$startDate' AND '$endDate' 
+            GROUP BY RT.Name 
+            ORDER BY TotalRevenue DESC 
+            LIMIT 3;";
 
 
            
@@ -94,6 +88,12 @@
         $topAttractions = getTopAttractions($conn, $userInputStartDate, $userInputEndDate);
     ?>
 
+<nav>
+      <a href="../index.html">Home</a>
+
+      <a href="../mgmt_rep.html">Animal Report </a>
+
+    </nav>
     <h2>Top Attractions Report</h2>
 
     <form method="post" action="">
@@ -112,8 +112,8 @@
             </tr>
             <?php foreach ($topAttractions as $attraction): ?>
                 <tr>
-                    <td><?= $attraction['RevenueType']; ?></td>
-                    <td><?= $attraction['AverageRevenue']; ?></td>
+                    <td><?= $attraction['AttractionName']; ?></td>
+                    <td><?= $attraction['TotalRevenue']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>

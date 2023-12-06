@@ -177,6 +177,7 @@ echo "    <a href='#'>About Us</a>";
 echo "    <a href='#'>Contact</a>";
 echo "</nav>";
 echo "";
+echo "<a href='add_building.php' class='edit-btn'>Add BUilding Details</a>";
 
 echo "";
 echo "<table>";

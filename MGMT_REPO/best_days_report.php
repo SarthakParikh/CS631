@@ -75,14 +75,13 @@
         function getBestDays($conn, $month, $year)
         {
 
-            $dateString = $month;
-$dateTime = new DateTime($dateString);
-$month1 = $dateTime->format('m');
-
-            $bestDays = [];
-            $sql = "SELECT DATE(re.Date) AS Revenue_Date, SUM(re.Revenue) AS Total_Revenue FROM revenue_event re WHERE MONTH(re.Date) = '$month1' AND YEAR(re.Date) = '$year' GROUP BY Revenue_Date ORDER BY Total_Revenue DESC LIMIT 5;";
+    
+                // $dateTime = new DateTime($month);
+                //  $month1 = $dateTime->format('m');
             echo $month;
-            echo $year;
+            $bestDays = [];
+            $sql = "SELECT DATE(re.Date) AS Revenue_Date, SUM(re.Revenue) AS Total_Revenue FROM revenue_event re WHERE MONTH(re.Date) = '$month' AND YEAR(re.Date) = '$year' GROUP BY Revenue_Date ORDER BY Total_Revenue DESC LIMIT 5;";
+           
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -102,11 +101,19 @@ $month1 = $dateTime->format('m');
         $bestDays = getBestDays($conn, $userInputMonth, $userInputYear);
     ?>
 
+    
+<nav>
+      <a href="../index.html">Home</a>
+
+      <a href="../mgmt_rep.html">Animal Report </a>
+
+    </nav>
+
     <h2>Best Days Report</h2>
 
     <form method="post" action="">
         <label for="month">Select Month:</label>
-        <input type="month" name="month" value="<?= $userInputMonth; ?>">
+        <input type="number" name="month" min="1" max="12" required>
         <label for="year">Select Year:</label>
         <input type="number" name="year" value="<?= $userInputYear; ?>">
         <button type="submit">Generate Report</button>

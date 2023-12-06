@@ -40,24 +40,26 @@
 
     <?php
         // Database connection parameters
-        $servername = "your_server_name"; // Replace with your MySQL server name
-        $username = "your_username"; // Replace with your MySQL username
-        $password = "your_password"; // Replace with your MySQL password
-        $database = "your_database"; // Replace with your MySQL database name
+   // Database connection parameters
+$servername = "localhost";
+$username = "root"; // Replace with your MySQL username
+$password = ""; // Replace with your MySQL password
+$dbname = "turtleback"; // Replace with your MySQL database name
 
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $database);
+// Create a connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
         // Function to generate animal report
         function generateAnimalReport($conn)
         {
             $report = [];
-            $sql = "SELECT species, status, food_cost, vet_cost, specialist_cost FROM animals";
+            $sql = "SELECT S.Name AS SpeciesName, A.Status, CAST(COUNT(*)/2 as int) AS TotalAnimals, SUM(S.Food_Cost) AS TotalFoodCost, SUM(CASE WHEN E.VetFl = 1 THEN HR.Rate* 40 * 4 ELSE 0 END) AS VetTotalSalary, SUM(CASE WHEN E.ACTSFl = 1 THEN HR.Rate * 40 * 4 ELSE 0 END) AS ActsTotalSalary, SUM(CASE WHEN E.VetFl = 1 THEN HR.Rate * 40 * 4 ELSE 0 END + CASE WHEN E.ACTSFl = 1 THEN HR.Rate * 40 * 4 ELSE 0 END) as TotalSalary FROM Animal A JOIN Species S ON A.SID = S.SID JOIN Cares_For CF ON A.SID = CF.SID JOIN Employee E ON CF.ESSN = E.SSN JOIN Hourly_Rate HR ON E.HRID = HR.HRID WHERE E.VetFl = 1 OR E.ACTSFl = 1 GROUP BY S.Name, A.Status ORDER BY S.Name, A.Status;"
+            ;
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -73,7 +75,18 @@
         $animalData = generateAnimalReport($conn);
     ?>
 
+
+
+
     <h2>Animal Report</h2>
+
+    <nav>
+      <a href="../index.html">Home</a>
+
+      <a href="../mgmt_rep.html">Animal Report </a>
+
+    </nav>
+
 
     <?php if (!empty($animalData)): ?>
         <table>
@@ -83,14 +96,18 @@
                 <th>Food Cost</th>
                 <th>Vet Cost</th>
                 <th>Specialist Cost</th>
+                <th>total Cost</th>
+
             </tr>
             <?php foreach ($animalData as $entry): ?>
                 <tr>
-                    <td><?= $entry['species']; ?></td>
-                    <td><?= $entry['status']; ?></td>
-                    <td><?= $entry['food_cost']; ?></td>
-                    <td><?= $entry['vet_cost']; ?></td>
-                    <td><?= $entry['specialist_cost']; ?></td>
+                    <td><?= $entry['SpeciesName']; ?></td>
+                    <td><?= $entry['Status']; ?></td>
+                    <td><?= $entry['TotalFoodCost']; ?></td>
+                    <td><?= $entry['VetTotalSalary']; ?></td>
+                    <td><?= $entry['ActsTotalSalary']; ?></td>
+                    <td><?= $entry['TotalSalary']; ?></td>
+
                 </tr>
             <?php endforeach; ?>
         </table>

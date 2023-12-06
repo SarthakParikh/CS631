@@ -92,8 +92,14 @@
         $averageRevenue = computeAverageRevenue($conn, $userInputStartDate, $userInputEndDate);
     ?>
 
-    <h2>Average Revenue Report</h2>
+    <nav>
+      <a href="../index.html">Home</a>
 
+      <a href="../mgmt_rep.html">Animal Report </a>
+
+    </nav>
+
+    <h2>Average Revenue Report</h2>
     <form method="post" action="">
         <label for="start_date">Start Date:</label>
         <input type="date" name="start_date" value="<?= $userInputStartDate; ?>">

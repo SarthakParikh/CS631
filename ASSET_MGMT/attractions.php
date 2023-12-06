@@ -177,26 +177,26 @@ echo "    <a href='../asset_mgmt.html'>Asset Management</a>";
 
 echo "</nav>";
 echo "";
-echo "<form method='post'>";
-echo "    <label for='attraction_name'>Attraction Name:</label>";
-echo "    <input type='text' name='attraction_name' id='attraction_name' value='" . htmlspecialchars($attraction_name) . "' required><br>";
-echo "";
-echo "    <label for='attraction_id'>Attraction ID:</label>";
-echo "    <input type='text' name='attraction_id' id='attraction_id' value='" . htmlspecialchars($attraction_id) . "' required><br>";
-echo "";
-echo "    <label for='building_name'>Building Name:</label>";
-echo "    <input type='text' name='building_name' id='building_name' value='" . htmlspecialchars($building_name) . "' required><br>";
-echo "";
-echo "    <label for='building_id'>Building ID:</label>";
-echo "    <input type='text' name='building_id' id='building_id' value='" . htmlspecialchars($building_id) . "' required><br>";
-echo "";
-echo "    <label for='species_name'>Species Name:</label>";
-echo "    <input type='text' name='species_name' id='species_name' value='" . htmlspecialchars($species_name) . "' required><br>";
-echo "";
-echo "    <label for='species_id'>Species ID:</label>";
-echo "    <input type='text' name='species_id' id='species_id' value='" . htmlspecialchars($species_id) . "' required><br>";
-echo "";
-echo "    <input type='submit' value='" . ($edit_mode ? 'Update' : 'Submit') . "'>";
+// echo "<form method='post'>";
+// echo "    <label for='attraction_name'>Attraction Name:</label>";
+// echo "    <input type='text' name='attraction_name' id='attraction_name' value='" . htmlspecialchars($attraction_name) . "' required><br>";
+// echo "";
+// echo "    <label for='attraction_id'>Attraction ID:</label>";
+// echo "    <input type='text' name='attraction_id' id='attraction_id' value='" . htmlspecialchars($attraction_id) . "' required><br>";
+// echo "";
+// echo "    <label for='building_name'>Building Name:</label>";
+// echo "    <input type='text' name='building_name' id='building_name' value='" . htmlspecialchars($building_name) . "' required><br>";
+// echo "";
+// echo "    <label for='building_id'>Building ID:</label>";
+// echo "    <input type='text' name='building_id' id='building_id' value='" . htmlspecialchars($building_id) . "' required><br>";
+// echo "";
+// echo "    <label for='species_name'>Species Name:</label>";
+// echo "    <input type='text' name='species_name' id='species_name' value='" . htmlspecialchars($species_name) . "' required><br>";
+// echo "";
+// echo "    <label for='species_id'>Species ID:</label>";
+// echo "    <input type='text' name='species_id' id='species_id' value='" . htmlspecialchars($species_id) . "' required><br>";
+// echo "";
+// echo "    <input type='submit' value='" . ($edit_mode ? 'Update' : 'Submit') . "'>";
 
 
 

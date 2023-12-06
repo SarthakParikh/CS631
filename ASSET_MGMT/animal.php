@@ -125,6 +125,7 @@ echo "    <a href='#'>About Us</a>";
 echo "    <a href='#'>Contact</a>";
 echo "</nav>";
 echo "";
+echo "<a href='add_animal.php' class='edit-btn'>Add Animal Details</a>";
 
 echo "";
 echo "<table>";
@@ -164,10 +165,6 @@ if ($result->num_rows > 0) {
 } else {
     echo "<tr><td colspan='4'>No records found</td></tr>";
 }
-
- 
-
-
 echo "    </tbody>";
 echo "</table>";
 echo "</body>";

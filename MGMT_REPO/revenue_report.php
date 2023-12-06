@@ -93,6 +93,14 @@
         $revenueData = generateRevenueReport($conn, $userInputDate);
     ?>
 
+    
+<nav>
+      <a href="../index.html">Home</a>
+
+      <a href="../mgmt_rep.html">Animal Report </a>
+
+    </nav>
+
     <h2>Revenue Report</h2>
 
     <form method="post" action="">

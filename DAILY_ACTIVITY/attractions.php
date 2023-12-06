@@ -100,14 +100,14 @@ echo "    <tbody>";
 $sql = "SELECT
 re.RID AS Attraction_ID,
 rt.name AS Attraction_Location,
-re.ticketsold AS Ticket_Sold,
-re.revenue
+count(re.ticketsold) AS Ticket_Sold,
+sum(re.revenue) as revenue
 FROM
 revenue_event re
 JOIN
 revenue_type rt ON re.RID = rt.RID
 WHERE
-re.RID IN (SELECT DISTINCT RID FROM animal_show);
+re.RID IN (SELECT RID FROM animal_show);
 ";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {

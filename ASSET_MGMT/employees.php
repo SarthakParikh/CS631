@@ -229,7 +229,7 @@ echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../asset_mgmt.html'>Asset Management</a>";
 echo "</nav>";
-
+echo " <a href='add_employees.php' class='edit-btn'>Add Employeess</a>";
 // echo "<form method='post'>";
 // echo "    <label for='ssn'>SSN:</label>";
 // echo "    <input type='text' name='ssn' id='ssn' value='" . htmlspecialchars($ssn) . "' required>";
