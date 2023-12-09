@@ -15,19 +15,18 @@ function sanitize($conn, $data) {
     return mysqli_real_escape_string($conn, trim($data));
 }
 
-$query1 = "SELECT  * FROM revenue_type WHERE type='Animal Show'";
-$result_att = $conn->query($query1);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-    $attractionID = $_POST["attname"]?? null;
+    $attractionID = 7;
     
     $revenue = $_POST["revenue"];
+    echo $revenue;
     $current_date = date("Y-m-d");
     $current_time = date("H:i:s");
     // Insert the new attraction into the database
-    $query_rev = "SELECT  * FROM animal_show WHERE RID='$attractionID'";
+    $query_rev = "SELECT  $revenue FROM zoo_admission";
     $result_rev = $conn->query($query_rev);
     $resultString = "";
     while ($row = $result_rev->fetch_assoc()) {
@@ -40,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $insertQuery = "INSERT INTO revenue_event (RID, Date, Time ,Revenue,ticketsold) VALUES ('$attractionID', '$current_date','$current_time', '$resultString','$tckSold')";
     if ($conn->query($insertQuery) === TRUE) {
         echo "Attraction added successfully!";
-        header("Location: attractions.php");
+        header("Location: attendance.php");
 
     } else {
         echo "Error: " . $insertQuery . "<br>" . $conn->error;
@@ -104,17 +103,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <h2>Add Attraction</h2>
+    <h2>Add Zoo Admission</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    Attraction ID:
-
-    <select  id="attname" name="attname"> 
-    <?php while ($row = $result_att->fetch_assoc()) : ?>
-                <option value="<?php echo $row['RID']; ?>"><?php echo $row['name']; ?></option>
-            <?php endwhile; ?><br>
-    </select>
-      
-        Revenue:
+        Type:
         <select name="revenue">
             <option value="adult_price">Adult</option>
             <option value="child_price">Child</option>

@@ -32,9 +32,9 @@ $attraction_name = $attraction_id = $building_name = $building_id = $species_nam
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
     $id = sanitize($conn, $_POST["id"]);
-    $current_status = sanitize($conn, $_POST["current_status"]);
+    $current_status = sanitize($conn, $_POST["attraction_name"]);
     $birth_year = sanitize($conn, $_POST["birth_year"]);
-    $species_id = sanitize($conn, $_POST["species_id"]);
+    $attraction_id = sanitize($conn, $_POST["attraction_id"]);
     $cage_id = sanitize($conn, $_POST["cage_id"]);
     $building_id = sanitize($conn, $_POST["building_id"]);
 
@@ -44,10 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
 
 
     // Update data in the database
-    $sql = "UPDATE animal SET status = '$current_status', BirthYear = '$birth_year', ENID = '$cage_id', BID = '$building_id'WHERE AID = '$id';";
+    $sql = "UPDATE revenue_type SET name = '$current_status' WHERE AID = '$attraction_id';";
     if ($conn->query($sql) === true) {
         echo "Record updated successfully";
-        header("Location: animal.php");
+        header("Location: attraction.php");
 
     } else {
         echo "Error updating record: " . $conn->error;
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
 
 if (isset($_GET["id"])) {
     $id = sanitize($conn, $_GET["id"]);
-    $sql = "SELECT rt.name AS Attraction_Name, rt.RID AS Attraction_ID,b.name AS Building_Name, b.BID AS Building_ID FROM revenue_type rt JOIN building b ON rt.BID = b.BID;";
+    $sql = "SELECT rt.name AS Attraction_Name, rt.RID AS Attraction_ID,b.name AS Building_Name, b.BID AS Building_ID FROM revenue_type rt JOIN building b ON rt.BID = b.BID WHERE RID='$id';";
     $result = $conn->query($sql);
 
 
@@ -67,7 +67,7 @@ if (isset($_GET["id"])) {
         $row = $result->fetch_assoc();
         $attraction_id = $row["Attraction_ID"];
         $attraction_name = $row["Attraction_Name"];
-        $building_name = $row["Attraction_Name"];
+        $building_name = $row["Building_Name"];
         $building_id = $row["Building_ID"];
 
         
@@ -180,16 +180,15 @@ if (isset($_GET["id"])) {
     <a href="../asset_mgmt.html">Asset Management</a>
 </nav>
 
-<form method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
+    <label for="attraction_id">Attraction ID:</label>
+    <input type="text" name="attraction_id" id="attraction_id" value="<?php echo htmlspecialchars($attraction_id); ?>" readonly><br>
+
     <label for="attraction_name">Attraction Name:</label>
     <input type="text" name="attraction_name" id="attraction_name" value="<?php echo htmlspecialchars($attraction_name); ?>" required><br>
 
-    <label for="attraction_id">Attraction ID:</label>
-    <input type="text" name="attraction_id" id="attraction_id" value="<?php echo htmlspecialchars($attraction_id); ?>" required><br>
-
-    <label for="building_name">Building Name:</label>
-    <input type="text" name="building_name" id="building_name" value="<?php echo htmlspecialchars($building_name); ?>" required><br>
-
+   
     <label for="building_id">Building ID:</label>
     <input type="text" name="building_id" id="building_id" value="<?php echo htmlspecialchars($building_id); ?>" required><br>
 

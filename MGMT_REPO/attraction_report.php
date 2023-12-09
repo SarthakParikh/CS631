@@ -91,7 +91,7 @@
 <nav>
       <a href="../index.html">Home</a>
 
-      <a href="../mgmt_rep.html">Animal Report </a>
+      <a href="../mgmt_rep.html">Management and Reporting </a>
 
     </nav>
     <h2>Top Attractions Report</h2>

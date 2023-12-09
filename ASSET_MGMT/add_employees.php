@@ -11,6 +11,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+
+
+$managerSsnQuery = "SELECT DISTINCT mgr_ssn FROM employee";
+$managerSsnResult = $conn->query($managerSsnQuery);
+
+$hr_id_value = "SELECT HRID FROM hourly_rate";
+$hr_id_value_result = $conn->query($hr_id_value);
+
+
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
@@ -24,37 +33,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $zip = $_POST["zip"];
     $startDate = $_POST["start_date"];
     $managerSsn = $_POST["manager_ssn"];
-    $maintenanceFlag = $_POST["maintenance_flag"];
-    $actsFlag = $_POST["acts_flag"];
-    $customerServiceFlag = $_POST["customer_service_flag"];
-    $ticketSellerFlag = $_POST["ticket_seller_flag"];
-    $vetFlag = $_POST["vet_flag"];
-    $rid = $_POST["rid"];
+ 
+
+
+    $selectedFlag = $_POST['flag'];
+
+    // Reset all other flags to 0
+    $flags = [
+        'maintenance' => 0,
+        'acts' => 0,
+        'customerService' => 0,
+        'ticketSeller' => 0,
+        'vet' => 0,
+    ];
+
+    // Set the selected flag to 1
+    $flags[$selectedFlag] = 1;
+
+
+
     $hrid = $_POST["hrid"];
+    $maintenanceFlag = $flags['maintenance'];
+$actsFlag = $flags['acts'];
+$customerServiceFlag = $flags['customerService'];
+$ticketSellerFlag = $flags['ticketSeller'];
+$vetFlag = $flags['vet'];
+
+
+
+if($ticketSellerFlag){
+    $rid = 1;
+
+}
+else{
+    $rid = 0;
+}
+
+
+
     if (!preg_match("/^\d{3}-\d{2}-\d{4}$/", $ssn)) {
         echo "Invalid SSN format. Please enter the SSN in the format XXX-XX-XXXX.";
         exit();
     }
 
     // Check if the SSN already exists in the database
-    $checkQuery = "SELECT SSN FROM employees WHERE SSN = '$ssn'";
+    $checkQuery = "SELECT SSN FROM employee WHERE SSN = '$ssn'";
     $result = $conn->query($checkQuery);
     if ($result->num_rows > 0) {
         echo "Employee with SSN $ssn already exists. Duplicate entries are not allowed.";
         exit();
     }
-    // SQL query to insert data into the database
+   // SQL query to insert data into the database
     $sql = "INSERT INTO employee (SSN, first_name, minit, last_name, street, city, state, zip, start_date, mgr_ssn, MaintenanceFl, ActsFl, custserFl, tktsellerFl, VetFl, RID, HRID)
             VALUES ('$ssn', '$firstName', '$middleInitial', '$lastName', '$street', '$city', '$state', '$zip', '$startDate', '$managerSsn', '$maintenanceFlag', '$actsFlag', '$customerServiceFlag', '$ticketSellerFlag', '$vetFlag', '$rid', '$hrid')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Employee added successfully";
+        header("Location: employees.php");
+
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    $managerSsnQuery = "SELECT DISTINCT ManagerSSN FROM employee";
-    $managerSsnResult = $conn->query($managerSsnQuery);
-    // Close the database connection
+
+   // Close the database connection
 }
 ?>
 
@@ -77,27 +118,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         State: <input type="text" name="state" required><br>
         Zip: <input type="text" name="zip" required><br>
         Start Date: <input type="date" name="start_date" required><br>
-        <!-- Manager SSN: <input type="text" name="manager_ssn"><br> -->
+   
 
         Manager SSN: 
         <select name="manager_ssn">
-            <?php
-            // // Populate the dropdown with ManagerSSN values from the database
-            // while ($row = $managerSsnResult->fetch_assoc()) {
-            //     $selected = ($managerSsn == $row["ManagerSSN"]) ? "selected" : "";
-            //     echo "<option value='{$row["ManagerSSN"]}' $selected>{$row["ManagerSSN"]}</option>";
-            // }
-            ?>
-        </select><br>
+    <?php
+    while ($row = $managerSsnResult->fetch_assoc()) {
+        echo "<option value='" . $row['mgr_ssn'] . "'>" . $row['mgr_ssn'] . "</option>";
+    }
+    ?>
+</select>
 
 
-        Maintenance Flag: <input type="text" name="maintenance_flag"><br>
-        Acts Flag: <input type="text" name="acts_flag"><br>
-        Customer Service Flag: <input type="text" name="customer_service_flag"><br>
-        Ticket Seller Flag: <input type="text" name="ticket_seller_flag"><br>
-        Vet Flag: <input type="text" name="vet_flag"><br>
-        RID: <input type="text" name="rid" required><br>
-        HRID: <input type="text" name="hrid" required><br>
+
+
+
+<br>
+
+
+
+    <label>
+        <input type="radio" name="flag" value="maintenance" id="maintenanceFlag"> Maintenance Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="acts" id="actsFlag"> Acts Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="customerService" id="customerServiceFlag"> Customer Service Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="ticketSeller" id="ticketSellerFlag"> Ticket Seller Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="vet" id="vetFlag"> Vet Flag
+    </label>
+    <br>
+
+
+
+    <!-- RID: <input type="text" name="rid" required><br> -->
+ <!-- HRID: <input type="text" name="hrid" required><br> -->
+
+
+ HRID: 
+        <select name="hrid">
+    <?php
+    while ($row = $hr_id_value_result->fetch_assoc()) {
+        echo "<option value='" . $row['HRID'] . "'>" . $row['HRID'] . "</option>";
+    }
+    ?>
+</select>
+<br>
+
+
 
         <input type="submit" value="Add Employee">
     </form>

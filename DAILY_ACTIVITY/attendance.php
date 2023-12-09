@@ -70,6 +70,9 @@ echo "<body>";
 echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../daily_activity.html'>Daily Zoo Activity</a>";
+echo "    <a href='add_zooaddmi.php'>Add Zoo Admission</a>";
+
+// add_zooaddmi.php
 echo "</nav>";
 
 echo "<table>";
@@ -101,16 +104,32 @@ echo "    <tbody>";
 //////
 
 
+// $sql = "SELECT
+// re.RID AS Attendance_ID,
+// CASE
+//     WHEN re.revenue = za.adult_price THEN 'Adult'
+//      WHEN re.revenue = za.senior_price THEN 'Senior'
+//     WHEN re.revenue = za.child_price THEN 'Child'
+//     ELSE 'Unknown'
+// END AS Attendance_Type,
+// re.ticketsold AS Ticket_Sold,
+// re.revenue AS Total_Revenue
+// FROM
+// zoo_admission za
+// JOIN
+// revenue_event re ON za.RID = re.RID;";
+
+
 $sql = "SELECT
 re.RID AS Attendance_ID,
 CASE
-    WHEN re.revenue = za.adult_price THEN 'Adult'
-     WHEN re.revenue = za.senior_price THEN 'Senior'
-    WHEN re.revenue = za.child_price THEN 'Child'
+    WHEN re.Revenue = za.adult_price THEN 'Adult'
+     WHEN re.Revenue = za.senior_price THEN 'Senior'
+    WHEN re.Revenue = za.child_price THEN 'Child'
     ELSE 'Unknown'
 END AS Attendance_Type,
-re.ticketsold AS Ticket_Sold,
-re.revenue AS Total_Revenue
+sum(re.ticketsold) AS Ticket_Sold,
+sum(re.revenue) AS Total_Revenue
 FROM
 zoo_admission za
 JOIN

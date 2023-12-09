@@ -15,7 +15,7 @@ function sanitize($conn, $data) {
     return mysqli_real_escape_string($conn, trim($data));
 }
 
-$query1 = "SELECT  * FROM revenue_type WHERE type='Animal Show'";
+$query1 = "SELECT *  FROM concession";
 $result_att = $conn->query($query1);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -23,24 +23,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $attractionID = $_POST["attname"]?? null;
     
-    $revenue = $_POST["revenue"];
     $current_date = date("Y-m-d");
     $current_time = date("H:i:s");
+
     // Insert the new attraction into the database
-    $query_rev = "SELECT  * FROM animal_show WHERE RID='$attractionID'";
+    $query_rev = "SELECT Price FROM concession WHERE Product='$attractionID'";
     $result_rev = $conn->query($query_rev);
+
     $resultString = "";
+
     while ($row = $result_rev->fetch_assoc()) {
-        $resultString = $row[$revenue];
+        $resultString = $row['Price'];
+
     }
-  echo $resultString;
-   $tckSold = 1;
+
+
+    $query12 = "SELECT RID  FROM concession WHERE Product='$attractionID'";
+    $result_att1 = $conn->query($query12);
+    $RID ='';
+    while ($row = $result_att1->fetch_assoc()) {
+        $RID = $row['RID'];
+   echo"Check";
+
+    }
+  echo $RID;
+
+   $tckSold = 0;
    
    
-    $insertQuery = "INSERT INTO revenue_event (RID, Date, Time ,Revenue,ticketsold) VALUES ('$attractionID', '$current_date','$current_time', '$resultString','$tckSold')";
+    $insertQuery = "INSERT INTO revenue_event (RID, Date, Time ,Revenue,ticketsold) VALUES ('$RID', '$current_date','$current_time', '$resultString','$tckSold')";
     if ($conn->query($insertQuery) === TRUE) {
         echo "Attraction added successfully!";
-        header("Location: attractions.php");
+        header("Location: concessions.php");
 
     } else {
         echo "Error: " . $insertQuery . "<br>" . $conn->error;
@@ -106,20 +120,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <h2>Add Attraction</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    Attraction ID:
+    Product Name:
 
     <select  id="attname" name="attname"> 
     <?php while ($row = $result_att->fetch_assoc()) : ?>
-                <option value="<?php echo $row['RID']; ?>"><?php echo $row['name']; ?></option>
+                <option value="<?php echo $row['Product']; ?>"><?php echo $row['Product']; ?></option>
             <?php endwhile; ?><br>
     </select>
       
-        Revenue:
-        <select name="revenue">
-            <option value="adult_price">Adult</option>
-            <option value="child_price">Child</option>
-            <option value="senior_price">Senior</option>
-        </select><br>
+
         <input type="submit" value="Add Attraction">
     </form>
 </body>

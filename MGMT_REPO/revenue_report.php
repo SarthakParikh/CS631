@@ -86,10 +86,10 @@
             return $report;
         }
 
-        // Get date from user input (you can use a form to collect user input)
+    
         $userInputDate = isset($_POST['date']) ? $_POST['date'] : date('Y-m-d');
 
-        // Generate revenue report based on user input date
+     
         $revenueData = generateRevenueReport($conn, $userInputDate);
     ?>
 
@@ -97,7 +97,7 @@
 <nav>
       <a href="../index.html">Home</a>
 
-      <a href="../mgmt_rep.html">Animal Report </a>
+      <a href="../mgmt_rep.html">Management and Reporting </a>
 
     </nav>
 

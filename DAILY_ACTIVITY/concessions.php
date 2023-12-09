@@ -67,6 +67,8 @@ echo "<body>";
 echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../daily_activity.html'>Daily Zoo Activity</a>";
+echo "    <a href='add_con.php'>Add Concession Item</a>";
+
 echo "</nav>";
 
 echo "<table>";
@@ -82,16 +84,28 @@ echo "    <tbody>";
 
 
 
-$sql = "SELECT c.RID AS Concessions_ID, c.Product AS Concessions_Location, re.ticketsold AS Total_Item_Sold, re.revenue AS Revenue FROM concession c JOIN revenue_event re ON c.RID = re.RID;";
+$sql = "SELECT
+r.RID,
+SUM( re.Revenue ) AS total_revenue,
+p.Product
+FROM
+revenue_type r
+JOIN
+revenue_event re ON r.RID = re.RID
+JOIN
+concession p ON re.RID = p.RID
+
+WHERE r.type ='concession'
+GROUP BY
+p.Product;";
 
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
-        echo "<td>" . $row["Concessions_ID"] . "</td>";
-        echo "<td>" . htmlspecialchars($row["Concessions_Location"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["Revenue"]) . "</td>";
-        // echo "<td>" . htmlspecialchars($row["revenue"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["RID"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Product"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["total_revenue"]) . "</td>";
 
 
        

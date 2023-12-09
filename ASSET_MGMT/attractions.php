@@ -174,6 +174,8 @@ echo "";
 echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../asset_mgmt.html'>Asset Management</a>";
+echo "    <a href='add_attractions.php'>Add Attractions</a>";
+
 
 echo "</nav>";
 echo "";

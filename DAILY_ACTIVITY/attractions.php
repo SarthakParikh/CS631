@@ -98,25 +98,33 @@ echo "    </thead>";
 echo "    <tbody>";
 
 $sql = "SELECT
-re.RID AS Attraction_ID,
-rt.name AS Attraction_Location,
-count(re.ticketsold) AS Ticket_Sold,
-sum(re.revenue) as revenue
+r.RID,
+r.name,
+SUM(re.ticketsold) AS total_tickets_sold,
+SUM(re.ticketsold * re.Revenue ) AS total_revenue
 FROM
-revenue_event re
+revenue_type r
 JOIN
-revenue_type rt ON re.RID = rt.RID
-WHERE
-re.RID IN (SELECT RID FROM animal_show);
+revenue_event re ON r.RID = re.RID
+
+WHERE r.type='Animal SHow'
+GROUP BY
+r.name;
 ";
+
+
+
+// SELECT a.AID AS 'Attraction ID', b.name AS 'Attraction Name', SUM(re.ticketsold) AS 'Total Tickets Sold',
+//  SUM(re.Revenue) AS 'Total Revenue' FROM animal a JOIN building b 
+// ON a.BID = b.BID JOIN revenue_event re ON a.AID = re.RID GROUP BY a.AID, b.name ORDER BY a.AID;
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
-        echo "<td>" . $row["Attraction_ID"] . "</td>";
-        echo "<td>" . htmlspecialchars($row["Attraction_Location"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["Ticket_Sold"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["revenue"]) . "</td>";
+        echo "<td>" . $row["RID"] . "</td>";
+        echo "<td>" . htmlspecialchars($row["name"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["total_tickets_sold"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["total_revenue"]) . "</td>";
 
 
        

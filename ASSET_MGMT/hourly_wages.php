@@ -123,6 +123,17 @@ echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../aaet_mgmt.html'>Asset Management</a>";
 echo "</nav>";
 
+
+
+echo "<form method='post' action='process.php'>
+
+<label for='wage'>Hourly Wage:</label>
+<input type='number' name='wage' step='0.01' required>
+<br>
+<input type='submit' value='Add '>
+</form>
+";
+
 echo "<table>";
 echo "    <thead>";
 echo "        <tr>";

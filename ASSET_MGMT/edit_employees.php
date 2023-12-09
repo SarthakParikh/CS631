@@ -92,12 +92,24 @@ function generateManagerOptions($conn) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-   
+    $selectedFlag = $_POST['job_type'];
+
+    // Reset all other flags to 0
+    $flags = [
+        'maintenance' => 0,
+        'acts' => 0,
+        'customerService' => 0,
+        'ticketSeller' => 0,
+        'vet' => 0,
+    ];
+
+    // Set the selected flag to 1
+    $flags[$selectedFlag] = 1;
 
     $ssn = $_POST['ssn']; // SSN of the employee to edit
-    if (!preg_match("/^\d{9}$/", $ssn)) {
-        die("Invalid SSN. SSN should be 9 digits.");
-    }
+    // if (!preg_match("/^\d{9}$/", $ssn)) {
+    //     die("Invalid SSN. SSN should be 9 digits.");
+    // }
     $firstName = $_POST['first_name'];
     $middleInitial = $_POST['middle_initial'];
     $lastName = $_POST['last_name'];
@@ -107,11 +119,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $zip = $_POST['zip'];
     $startDate = $_POST['start_date'];
     $managerSsn = $_POST['manager_ssn'];
-    $jobType = $_POST['job_type'];
     $rid = $_POST['rid'];
     $hrid = $_POST['hrid'];
+    $maintenanceFlag = $flags['maintenance'];
+    $actsFlag = $flags['acts'];
+    $customerServiceFlag = $flags['customerService'];
+    $ticketSellerFlag = $flags['ticketSeller'];
+    $vetFlag = $flags['vet'];
+    
+    
+    
+    if($ticketSellerFlag){
+        $rid = 1;
+    
+    }
+    else{
+        $rid = 0;
+    }
+    
+    
 
-    $sql = "UPDATE employees SET
+
+    $sql = "UPDATE employee SET
             first_name = '$firstName',
             minit = '$middleInitial',
             last_name = '$lastName',
@@ -121,13 +150,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             zip = '$zip',
             start_date = '$startDate',
             mgr_ssn = '$managerSsn',
-            Job_Type = '$jobType',
+            MaintenanceFl = '$maintenanceFlag',
+            ActsFl   = '$actsFlag',
+            custserFl = '$customerServiceFlag',
+            tktsellerFl = '$ticketSellerFlag',
+            VetFl = '$vetFlag',
             RID = '$rid',
             HRID = '$hrid'
             WHERE SSN = '$ssn'";
 
     if ($conn->query($sql) === TRUE) {
         echo "Record updated successfully";
+        header("Location: employees.php");
+
     } else {
         echo "Error updating record: " . $conn->error;
     }
@@ -144,16 +179,27 @@ if (isset($_GET["id"])) {
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $animal_id = $row["AID"];
-        $current_status = $row["status"];
-        $birth_year = $row["BirthYear"];
-        $species_id = $row["SID"];
-        $cage_id = $row["ENID"];
-        $building_id = $row["BID"];
-        $monthly_food_cost = $row["food_cost"];
-        
-        
-    } else {
+        $ssn = $row["SSN"];
+        $first_name = $row["first_name"];
+        $middle_initial = $row["minit"];
+        $last_name = $row["last_name"];
+        $street = $row["street"];
+        $city = $row["city"];
+        $state = $row["State"];
+        $zip = $row["zip"];
+        $start_date = $row["start_date"] ;  
+
+         $manager_ssn = $row["mgr_ssn"];
+         $state = $row["State"];
+         $RID = $row["RID"];
+          $HRID = $row["HRID"];
+
+    // $maintenanceFlag = $row["MaintenanceFl"];
+    // $actsFlag = $row["ActsFl"];
+    // $customerServiceFlag = $row["custserFl"];
+    // $ticketSellerFlag = $row["tktsellerFl"];
+    // $vetFlag = $row["VetFl"];
+     } else {
         echo "No record found with the given ID";
     }
 }
@@ -163,35 +209,35 @@ if (isset($_GET["id"])) {
 
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     <label for="ssn">SSN:</label>
-    <input type="number" name="ssn" id="ssn" required><br>
+    <input type="text" name="ssn" id="ssn" value='<?php echo $ssn; ?>' readonly><br>
 
     <label for="first_name">First Name:</label>
-    <input type="text" name="first_name" id="first_name" required><br>
+    <input type="text" name="first_name" id="first_name" value="<?php echo $first_name; ?>" readonly><br>
     <label for="middle_initial">Middle Initial:</label>
-    <input type="text" name="middle_initial" id="middle_initial"><br>
+    <input type="text" name="middle_initial" id="middle_initial" value="<?php echo $middle_initial; ?>" readonly><br>
 
     <label for="last_name">Last Name:</label>
-    <input type="text" name="last_name" id="last_name" required><br>
+    <input type="text" name="last_name" id="last_name" value="<?php echo $last_name; ?>" readonly><br>
 
     <label for="street">Street:</label>
-    <input type="text" name="street" id="street" required><br>
+    <input type="text" name="street" id="street" value="<?php echo $street; ?>" required><br>
 
     <label for="city">City:</label>
-    <input type="text" name="city" id="city" required><br>
+    <input type="text" name="city" id="city" value="<?php echo $city; ?>" required><br>
 
     <label for="state">State:</label>
-    <input type="text" name="state" id="state" required><br>
+    <input type="text" name="state" id="state" value="<?php echo $state; ?>" required><br>
 
     <label for="zip">Zip:</label>
-    <input type="number" min={5} max={5} name="zip" id="zip" required><br>
+    <input type="number" min={5} max={5} name="zip" id="zip" value="<?php echo $zip; ?>" required><br>
 
     <label for="start_date">Start Date:</label>
-    <input type="date" name="start_date" id="start_date" required><br>
+    <input type="date" name="start_date" id="start_date" value="<?php echo $start_date; ?>" required><br>
 
 
     <div class="manager-dropdown">
         <label for="manager_ssn">Manager SSN:</label>
-        <select name="manager_ssn" id="manager_ssn" required>
+        <select name="manager_ssn" id="manager_ssn" value="<?php echo $manager_ssn; ?>" required>
             <?php generateManagerOptions($conn); ?>
         </select>
     </div>
@@ -208,12 +254,12 @@ if (isset($_GET["id"])) {
     </div>
 
     <label for="rid">RID:</label>
-    <input type="text" name="rid" id="rid" required><br>
+    <input type="text" name="rid" id="rid" value="<?php echo $RID; ?>" required><br>
 
     <label for="hrid">HRID:</label>
-    <select name="hrid" id="hrid" required>
+    <select name="hrid" id="hrid" value="<?php echo $hrid; ?>" required>
         <?php
-        // Assuming HRIDDD is the table containing available HRIDs
+     
         $hridQuery = "SELECT HRID FROM hourly_rate";
         $hridResult = $conn->query($hridQuery);
 
