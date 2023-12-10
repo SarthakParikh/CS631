@@ -54,29 +54,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Add Data to Database</h2>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="current_status">Current Status:</label>
-        <input type="text" name="current_status" required><br>
+        <input type="text" name="current_status" required><br><br>
 
         <label for="birth_year">Birth Year:</label>
-        <input type="text" name="birth_year" required><br>
+        <input type="text" name="birth_year" placeholder="xxxx" required><br><br>
 
         <label for="species_id">Species:</label>
         <select name="species_id" required>
             <?php while ($row = $speciesResult->fetch_assoc()) : ?>
                 <option value="<?php echo $row['SID']; ?>"><?php echo $row['name']; ?></option>
             <?php endwhile; ?>
-        </select><br>
+        </select><br><br>
 
         <label for="building_id">Building:</label>
         <select name="building_id" id="building_id" onchange="updateCageDropdown()" required>
             <?php while ($row = $buildingResult->fetch_assoc()) : ?>
                 <option value="<?php echo $row['BID']; ?>"><?php echo $row['name']; ?></option>
             <?php endwhile; ?>
-        </select><br>
+        </select><br><br>
 
         <label for="cage_id">Cage:</label>
         <select name="cage_id" id="cage_id" required>
             <!-- Cage options will be dynamically populated -->
-        </select><br>
+        </select><br><br>
 
         <input type="submit" value="Submit">
     </form>

@@ -30,7 +30,7 @@ $attraction_name = $attraction_id = $building_name = $building_id = $species_nam
 
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
     $id = sanitize($conn, $_POST["id"]);
     $current_status = sanitize($conn, $_POST["attraction_name"]);
     $birth_year = sanitize($conn, $_POST["birth_year"]);
@@ -44,10 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
 
 
     // Update data in the database
-    $sql = "UPDATE revenue_type SET name = '$current_status' WHERE AID = '$attraction_id';";
+    $sql = "UPDATE revenue_type SET name = '$current_status' , BID = ' $building_id' WHERE RID = '$attraction_id'  ;";
     if ($conn->query($sql) === true) {
         echo "Record updated successfully";
-        header("Location: attraction.php");
+        header("Location: attractions.php");
 
     } else {
         echo "Error updating record: " . $conn->error;

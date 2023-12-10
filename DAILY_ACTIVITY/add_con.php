@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Attraction</title>
+    <title>Buy from Concession</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <h2>Add Attraction</h2>
+    <h2>Buy from Concession</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
     Product Name:
 
@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </select>
       
 
-        <input type="submit" value="Add Attraction">
+        <input type="submit" value="Buy item">
     </form>
 </body>
 </html>

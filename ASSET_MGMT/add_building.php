@@ -48,10 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Add Data to Database</h2>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="current_status">NAME :</label>
-        <input type="text" name="current_status" required><br>
+        <input type="text" name="current_status" required><br><br>
 
         <label for="birth_year">TYPE:</label>
-        <input type="text" name="birth_year" required><br>
+        <input type="text" name="birth_year" required><br><br>
 
 
 

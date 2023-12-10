@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="child_price">Child</option>
             <option value="senior_price">Senior</option>
         </select><br>
-        <input type="submit" value="Add Attraction">
+        <input type="submit" value="Sell ticket">
     </form>
 </body>
 </html>

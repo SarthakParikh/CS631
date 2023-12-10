@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Add Data to Database</h2>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="current_status">NAME :</label>
-        <input type="text" name="current_status" required><br>
+        <input type="text" name="current_status" required><br><br>
         Building Name:
     <select name="building_name">
         <?php
@@ -64,16 +64,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "<option value='" . $row_building["BID"] . "'>" . $row_building["name"] . "</option>";
         }
         ?>
-    </select><br>
+    </select><br><br>
     TYPE
     <select name="type">
       
      
-    <option value = "COncession"> Concession  </option>
+    <option value = "Concession"> Concession  </option>
      
-            <option value = "Animal Show"> Animal Show </option>
+            <option value = "zoo"> Animal Attraction/enclosures </option>
+            <option value = "admission"> Zoo Admission </option>
        
-    </select><br>
+    </select><br><br>
 
         <input type="submit" value="Submit">
     </form>

@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     
     if($ticketSellerFlag){
-        $rid = 1;
+        $rid = 7;
     
     }
     else{
@@ -256,10 +256,20 @@ if (isset($_GET["id"])) {
 
     <div class="manager-dropdown">
         <label for="manager_ssn">Manager SSN:</label>
+        <pre> 
+Use the following Manager SSN based on your departments
+maintenance: 152-19-0597 
+animal care: 112-84-3154
+Customer service: 183-22-8835
+ticket seller: 127-37-7794
+vet: 309-56-9988 
+</pre>
         <select name="manager_ssn" id="manager_ssn" value="<?php echo $manager_ssn; ?>" required>
             <?php generateManagerOptions($conn); ?>
         </select>
     </div>
+
+   
 
     <label>Job Type:</label>
     <br>

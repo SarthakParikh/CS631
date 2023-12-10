@@ -109,19 +109,27 @@ else{
 <body>
     <h2>Add Employee</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        SSN: <input type="text" name="ssn" required><br>
-        First Name: <input type="text" name="first_name" required><br>
-        Middle Initial: <input type="text" name="middle_initial"><br>
-        Last Name: <input type="text" name="last_name" required><br>
-        Street: <input type="text" name="street" required><br>
-        City: <input type="text" name="city" required><br>
-        State: <input type="text" name="state" required><br>
-        Zip: <input type="text" name="zip" required><br>
-        Start Date: <input type="date" name="start_date" required><br>
+        SSN: <input type="text" name="ssn" placeholder="xxx-xx-xxxx"required><br>
+        First Name: <input type="text" name="first_name" placeholder="first name" required><br>
+        Middle Initial: <input type="text" name="middle_initial" placeholder="middle intial"><br>
+        Last Name: <input type="text" name="last_name" placeholder="last name"required><br>
+        Street: <input type="text" name="street" placeholder="street address"required><br>
+        City: <input type="text" name="city" placeholder="city"required><br>
+        State: <input type="text" name="state" placeholder="full state name"required><br>
+        Zip: <input type="text" name="zip" placeholder="xxxxx"required><br>
+        Start Date: <input type="date" name="start_date" required><br> </br>
    
 
         Manager SSN: 
-        <select name="manager_ssn">
+        <pre> 
+Use the following Manager SSN based on your departments
+maintenance: 152-19-0597 
+animal care: 112-84-3154
+Customer service: 183-22-8835
+ticket seller: 127-37-7794
+vet: 309-56-9988 
+</pre>
+        <select name="manager_ssn" > 
     <?php
     while ($row = $managerSsnResult->fetch_assoc()) {
         echo "<option value='" . $row['mgr_ssn'] . "'>" . $row['mgr_ssn'] . "</option>";
@@ -130,7 +138,7 @@ else{
 </select>
 
 
-
+</br>
 
 
 <br>
@@ -157,6 +165,7 @@ else{
         <input type="radio" name="flag" value="vet" id="vetFlag"> Vet Flag
     </label>
     <br>
+    <br>
 
 
 
@@ -165,6 +174,15 @@ else{
 
 
  HRID: 
+
+ <pre> 
+Use the following HRID based on your departments
+maintenance: 1
+animal care: 2
+Customer service: 3
+ticket seller: 4
+vet: 5 
+</pre>
         <select name="hrid">
     <?php
     while ($row = $hr_id_value_result->fetch_assoc()) {
@@ -172,6 +190,7 @@ else{
     }
     ?>
 </select>
+<br>
 <br>
 
 
