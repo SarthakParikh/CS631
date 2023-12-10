@@ -78,10 +78,9 @@ echo "</nav>";
 echo "<table>";
 echo "    <thead>";
 echo "        <tr>";
-echo "            <th>Attendance ID</th>";
 echo "            <th>Attendance Type</th>";
-echo "            <th>Ticket Sold </th>";
 echo "            <th>Total Revenue </th>";
+echo "            <th>Ticket Sold </th>";
 echo "        </tr>";
 echo "    </thead>";
 echo "    <tbody>";
@@ -121,28 +120,54 @@ echo "    <tbody>";
 
 
 $sql = "SELECT
-re.RID AS Attendance_ID,
-CASE
-    WHEN re.Revenue = za.adult_price THEN 'Adult'
-    WHEN re.Revenue = za.senior_price THEN 'Senior'
-    WHEN re.Revenue = za.child_price THEN 'Child'
-    ELSE 'Unknown'
-END AS Attendance_Type,
-sum(re.ticketsold) AS Ticket_Sold,
-sum(re.revenue) AS Total_Revenue
+'Senior' AS AttendeeType,
+SUM(senior_price * ticketsold) AS TotalTicketsSold,
+SUM(ticketsold) AS Ticket
 FROM
-zoo_admission za
+Revenue_Event re
 JOIN
-revenue_event re ON za.RID = re.RID;";
+Zoo_Admission ra ON re.RID = ra.RID 
+WHERE
+ra.senior_price = re.Revenue
+GROUP BY
+AttendeeType
+UNION
+
+SELECT
+'Adult' AS AttendeeType,
+SUM(adult_price * ticketsold) AS TotalTicketsSold,
+SUM(ticketsold) AS Ticket
+FROM
+Revenue_Event re
+JOIN
+Zoo_Admission ra ON re.RID = ra.RID 
+WHERE
+ra.adult_price = re.Revenue
+GROUP BY
+AttendeeType
+
+UNION
+
+SELECT
+'Child' AS AttendeeType,
+SUM(Child_price * ticketsold) AS TotalTicketsSold,
+SUM(ticketsold) AS Ticket
+FROM
+Revenue_Event re
+JOIN
+Zoo_Admission ra ON re.RID = ra.RID
+WHERE
+ra.child_price = re.Revenue
+GROUP BY
+AttendeeType;";
 
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
-        echo "<td>" . $row["Attendance_ID"] . "</td>";
-        echo "<td>" . htmlspecialchars($row["Attendance_Type"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["Ticket_Sold"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["Total_Revenue"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["AttendeeType"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["TotalTicketsSold"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Ticket"]) . "</td>";
 
 
        

@@ -228,8 +228,9 @@ echo "<body>";
 echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../asset_mgmt.html'>Asset Management</a>";
-echo "</nav>";
 echo " <a href='add_employees.php' class='edit-btn'>Add Employeess</a>";
+
+echo "</nav>";
 // echo "<form method='post'>";
 // echo "    <label for='ssn'>SSN:</label>";
 // echo "    <input type='text' name='ssn' id='ssn' value='" . htmlspecialchars($ssn) . "' required>";
@@ -311,11 +312,7 @@ echo "            <th>State</th>";
 echo "            <th>Zip</th>";
 echo "            <th>Start Date</th>";
 echo "            <th>Manager SSN</th>";
-echo "            <th>Maintenance</th>";         
-echo "            <th>Acts</th>";
-echo "            <th>Customer Service</th>";
-echo "            <th>Ticket Seller</th>";
-echo "            <th>Vet</th>";
+echo "            <th>Job Type</th>";         
 echo "            <th>RID</th>";
 echo "            <th>HRID</th>";
 echo "            <th>Action</th>";
@@ -323,7 +320,29 @@ echo "        </tr>";
 echo "    </thead>";
 echo "    <tbody>";
 
-$sql = "SELECT * FROM employee;";
+$sql = "SELECT
+e.SSN,
+e.first_name,
+e.minit,
+e.last_name,
+e.Street,
+e.City,
+e.State,
+e.Zip,
+e.Start_date,
+e.Mgr_ssn,
+CASE
+    WHEN e.MaintenanceFl = '1' THEN 'Maintenance'
+    WHEN e.ACTSFl = '1' THEN 'ACTS'
+    WHEN e.VetFl = '1' THEN 'Vet'
+    WHEN e.CustSerFl = '1' THEN 'Customer Service'
+    WHEN e.tktsellerfl = '1' THEN 'Ticket Seller'
+    ELSE 'Unknown'
+END AS JobType,
+e.RID,
+e.HRID
+FROM
+Employee e;";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -332,21 +351,17 @@ if ($result->num_rows > 0) {
         echo "<td>" . htmlspecialchars($row["first_name"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["minit"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["last_name"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["street"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["city"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Street"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["City"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["State"]) . "</td>";
 
-        echo "<td>" . htmlspecialchars($row["zip"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["start_date"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["mgr_ssn"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["maintenanceFl"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["actsfl"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Zip"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Start_date"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["Mgr_ssn"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["JobType"]) . "</td>";
 
 
 
-        echo "<td>" . htmlspecialchars($row["custserfl"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["tktsellerfl"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["vetfl"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["RID"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["HRID"]) . "</td>";
 

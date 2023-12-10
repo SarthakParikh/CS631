@@ -74,7 +74,11 @@
         LEFT JOIN
             zoo_admission za ON re.RID = za.RID
         WHERE
-            re.Date = '2023-10-01';";
+            re.Date = '$date'
+        GROUP BY
+        Revenue_Source
+            
+            ;";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -103,7 +107,7 @@
 
     <h2>Revenue Report</h2>
 
-    <form method="post" action="">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <label for="date">Select Date:</label>
         <input type="date" name="date" value="<?= $userInputDate; ?>">
         <button type="submit">Generate Report</button>

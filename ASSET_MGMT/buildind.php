@@ -172,12 +172,9 @@ echo "";
 echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../asset_mgmt.html'>Asset Management</a>";
-echo "    <a href='#'>Buildings</a>";
-echo "    <a href='#'>About Us</a>";
-echo "    <a href='#'>Contact</a>";
+echo "<a href='add_building.php' class='edit-btn'>Add BUilding Details</a>";
 echo "</nav>";
 echo "";
-echo "<a href='add_building.php' class='edit-btn'>Add BUilding Details</a>";
 
 echo "";
 echo "<table>";

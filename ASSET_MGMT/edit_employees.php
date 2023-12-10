@@ -11,7 +11,7 @@
             padding: 0;
             background-color: #f2f2f2;
         }
-
+ 
         form {
             max-width: 600px;
             margin: 20px auto;
@@ -121,12 +121,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $managerSsn = $_POST['manager_ssn'];
     $rid = $_POST['rid'];
     $hrid = $_POST['hrid'];
+    // $maintenanceFlag = $flags['maintenance'];
+    // $actsFlag = $flags['acts'];
+    // $customerServiceFlag = $flags['customerService'];
+    // $ticketSellerFlag = $flags['ticketSeller'];
+    // $vetFlag = $flags['vet'];
+    
+
+    $selectedFlag = $_POST['flag'];
+
+    // Reset all other flags to 0
+    $flags = [
+        'maintenance' => 0,
+        'acts' => 0,
+        'customerService' => 0,
+        'ticketSeller' => 0,
+        'vet' => 0,
+    ];
+
+    // Set the selected flag to 1
+    $flags[$selectedFlag] = 1;
     $maintenanceFlag = $flags['maintenance'];
     $actsFlag = $flags['acts'];
     $customerServiceFlag = $flags['customerService'];
     $ticketSellerFlag = $flags['ticketSeller'];
     $vetFlag = $flags['vet'];
-    
     
     
     if($ticketSellerFlag){
@@ -246,11 +265,26 @@ if (isset($_GET["id"])) {
     <br>
     <div class="radio-group">
        
-        <label><input type="radio" name="job_type" value="Maintenance"> Maintenance</label>
-        <label><input type="radio" name="job_type" value="Acts"> Acts</label>
-        <label><input type="radio" name="job_type" value="Customer Service"> Customer Service</label>
-        <label><input type="radio" name="job_type" value="Ticket Seller"> Ticket Seller</label>
-        <label><input type="radio" name="job_type" value="Vet"> Vet</label>
+    <label>
+        <input type="radio" name="flag" value="maintenance" id="maintenanceFlag"> Maintenance Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="acts" id="actsFlag"> Acts Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="customerService" id="customerServiceFlag"> Customer Service Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="ticketSeller" id="ticketSellerFlag"> Ticket Seller Flag
+    </label>
+    <br>
+    <label>
+        <input type="radio" name="flag" value="vet" id="vetFlag"> Vet Flag
+    </label>
+    <br>
     </div>
 
     <label for="rid">RID:</label>
