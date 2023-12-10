@@ -25,7 +25,8 @@ $id = $status = $birthyear = $vet_name = '';
 
 $animal_id = $birth_year = $current_status = $species_id = $cage_id = $building_id = $monthly_food_cost = $acts_name = $vet_id = $acts_id = '';
 
-
+$speciesResult = $conn->query("SELECT * FROM species");
+$buildingResult = $conn->query("SELECT * FROM building where type = 'zoo'");
 
 
 
@@ -39,12 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update"])) {
     $building_id = sanitize($conn, $_POST["building_id"]);
 
 
-
+echo $species_id,$building_id,$cage_id;
 
 
 
     // Update data in the database
-    $sql = "UPDATE animal SET status = '$current_status', BirthYear = '$birth_year', ENID = '$cage_id', BID = '$building_id'WHERE AID = '$id';";
+    $sql = "UPDATE animal SET status = '$current_status', BirthYear = '$birth_year', ENID = '$cage_id', BID = '$building_id' , SID='$species_id'WHERE AID = '$id';";
     if ($conn->query($sql) === true) {
         echo "Record updated successfully";
         header("Location: animal.php");
@@ -84,6 +85,8 @@ if (isset($_GET["id"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Animal - Zoo Management System</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -126,6 +129,11 @@ if (isset($_GET["id"])) {
         }
     </style>
 </head>
+<nav>
+    <a href='../index.html'>Home</a>
+   <a href='../asset_mgmt.html'>Asset Management</a>
+ 
+</nav>
 <body>
 
 <form method="post">
@@ -138,14 +146,39 @@ if (isset($_GET["id"])) {
     <label for="current_status">Current Status:</label>
     <input type="text" name="current_status" id="current_status" value="<?= htmlspecialchars($current_status) ?>" required><br>
 
-    <label for="species_id">Species ID:</label>
-    <input type="text" name="species_id" id="species_id" value="<?= htmlspecialchars($species_id) ?>" readonly><br>
 
-    <label for="cage_id">Cage ID:</label>
-    <input type="text" name="cage_id" id="cage_id" value="<?= htmlspecialchars($cage_id) ?>" readonly><br>
 
-    <label for="building_id">Building ID:</label>
-    <input type="text" name="building_id" id="building_id" value="<?= htmlspecialchars($building_id) ?>" readonly><br>
+    <br>
+
+
+
+<label for="species_id">Species:</label>
+        <select name="species_id" id="species_id"  required>
+            <?php while ($row = $speciesResult->fetch_assoc()) : ?>
+                <option value="<?php echo $row['SID']; ?>"><?php echo $row['SID']; ?></option>
+            <?php endwhile; ?>
+        </select><br><br>
+
+        <label for="building_id">Building:</label>
+        <select name="building_id" id="building_id"  onchange="updateCageDropdown()" required>
+            <?php while ($row = $buildingResult->fetch_assoc()) : ?>
+                <option value="<?php echo $row['BID']; ?>"><?php echo $row['name']; ?></option>
+            <?php endwhile; ?>
+        </select><br><br>
+
+        <label for="cage_id">Cage:</label>
+        <select name="cage_id" id="cage_id" value="<?= htmlspecialchars($cage_id) ?>" >
+            <!-- Cage options will be dynamically populated -->
+        </select><br><br>
+
+
+
+
+
+
+
+
+
 
     <label for="monthly_food_cost">Monthly Food Cost:</label>
     <input type="text" name="monthly_food_cost" id="monthly_food_cost" value="<?= isset($monthly_food_cost) ? htmlspecialchars($monthly_food_cost) : 'Hola' ?>" readonly><br>
@@ -153,7 +186,29 @@ if (isset($_GET["id"])) {
     <input type="submit" name="update" value="Update">
    
 </form>
+<script>
+        function updateCageDropdown() {
+            var buildingId = $("#building_id").val();
+            var cageDropdown = $("#cage_id");
 
+            // Clear existing options
+            cageDropdown.empty();
+
+            // Fetch cage options based on the selected building using AJAX
+            $.ajax({
+                type: "POST",
+                url: "get_cage_options.php", // Create a separate PHP file to handle this AJAX request
+                data: { building_id: buildingId },
+                dataType: "json",
+                success: function(data) {
+                    // Populate cage options
+                    $.each(data, function(index, value) {
+                        cageDropdown.append('<option value="' + value.ENID + '">' + value.ENID + '</option>');
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 

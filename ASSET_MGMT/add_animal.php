@@ -51,10 +51,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
+<nav>
+    <a href='../index.html'>Home</a>
+   <a href='../asset_mgmt.html'>Asset Management</a>
+ 
+</nav>
     <h2>Add Data to Database</h2>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="current_status">Current Status:</label>
-        <input type="text" name="current_status" required><br><br>
+        
+        <select  name="current_status" required>
+        <option value = 'healthy'>healthy  </option>
+        <option value = 'retired'>Retired  </option>
+        <option value = 'maternal leave'>maternal leave  </option>
+        <option value = 'under medical care'>under medical care  </option>
+        <option value = 'New Born'>New Born  </option>
+
+        </select>
+        
+        
+        
+        <br><br>
 
         <label for="birth_year">Birth Year:</label>
         <input type="text" name="birth_year" placeholder="xxxx" required><br><br>

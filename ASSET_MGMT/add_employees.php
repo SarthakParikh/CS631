@@ -107,6 +107,11 @@ else{
     <title>Add Employee</title>
 </head>
 <body>
+<nav>
+    <a href='../index.html'>Home</a>
+   <a href='../asset_mgmt.html'>Asset Management</a>
+ 
+</nav>
     <h2>Add Employee</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         SSN: <input type="text" name="ssn" placeholder="xxx-xx-xxxx"required><br>

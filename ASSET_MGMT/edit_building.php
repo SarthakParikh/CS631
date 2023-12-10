@@ -242,9 +242,7 @@ if (isset($_GET["id"])) {
 <nav>
     <a href="../index.html">Home</a>
     <a href="../asset_mgmt.html">Asset Management</a>
-    <a href="#">Buildings</a>
-    <a href="#">About Us</a>
-    <a href="#">Contact</a>
+
 </nav>
 
 <form method="post">
@@ -255,8 +253,14 @@ if (isset($_GET["id"])) {
     <input type="text" name="building_name" id="building_name" value="<?= htmlspecialchars($NAME) ?>" required><br>
 
     <label for="building_type">Building Type:</label>
-    <input type="text" name="building_type" id="building_type" value="<?= htmlspecialchars($TYPE) ?>" required><br>
+    <!-- <input type="text" name="building_type" id="building_type" value="<?= htmlspecialchars($TYPE) ?>" required><br> -->
+    <select name="building_type" id="building_type" value="<?= htmlspecialchars($TYPE) ?>" required>
+        <option value = 'zoo'>zoo  </option>
+        <option value = 'concession'>concession  </option>
+        <option value = 'admission'>admission  </option>
 
+
+        </select>
     
 
     

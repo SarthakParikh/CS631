@@ -60,7 +60,11 @@
     </style>
 </head>
 <body>
-
+<nav>
+    <a href='../index.html'>Home</a>
+   <a href='../asset_mgmt.html'>Asset Management</a>
+ 
+</nav>
 <?php
 
 $servername = "localhost";

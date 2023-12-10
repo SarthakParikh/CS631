@@ -121,7 +121,11 @@ if (isset($_GET["id"])) {
     </style>
 </head>
 <body>
-
+<nav>
+    <a href='../index.html'>Home</a>
+   <a href='../asset_mgmt.html'>Asset Management</a>
+ 
+</nav>
 <form method="post">
     <label for="animal_id">ID :</label>
     <input type="text" name="id" id="id" value="<?= htmlspecialchars($id) ?>" readonly disable>
