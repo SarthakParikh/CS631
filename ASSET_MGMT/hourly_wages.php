@@ -120,7 +120,7 @@ echo "<body>";
 
 echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
-echo "    <a href='../aaet_mgmt.html'>Asset Management</a>";
+echo "    <a href='../asset_mgmt.html'>Asset Management</a>";
 echo "</nav>";
 
 

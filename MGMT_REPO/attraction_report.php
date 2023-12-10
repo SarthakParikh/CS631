@@ -94,7 +94,7 @@
       <a href="../mgmt_rep.html">Management and Reporting </a>
 
     </nav>
-    <h2>Top Attractions Report</h2>
+    <h2>Top 3 Attractions Report for a  given period</h2>
 
     <form method="post" action="">
         <label for="start_date">Start Date:</label>

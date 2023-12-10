@@ -183,7 +183,7 @@ GROUP BY
         <table>
             <tr>
                 <th>Species</th>
-                <th>Numbers </th>
+                <th>Total Animal </th>
                 <th>Healthy </th>
                 <th>Under Medical Care </th>
                 <th>New Born </th>
@@ -192,7 +192,7 @@ GROUP BY
                 <th>Food Cost</th>
                 <th>Vet Cost</th>
                 <th>Specialist Cost</th>
-                <th>total Cost</th>
+                <th>Total Cost</th>
 
             </tr>
             <?php foreach ($animalData as $entry): ?>

@@ -109,7 +109,9 @@ revenue_event re ON r.RID = re.RID
 
 WHERE r.type='Animal SHow'
 GROUP BY
-r.name;
+r.name
+ORDER BY
+r.RID;
 ";
 
 

@@ -121,11 +121,9 @@ echo "";
 echo "<nav>";
 echo "    <a href='../index.html'>Home</a>";
 echo "    <a href='../asset_mgmt.html'>Asset Management</a>";
-echo "    <a href='#'>About Us</a>";
-echo "    <a href='#'>Contact</a>";
+echo "    <a href='add_animal.php' class='edit-btn'>Add Animal Details</a>";
 echo "</nav>";
 echo "";
-echo "<a href='add_animal.php' class='edit-btn'>Add Animal Details</a>";
 
 echo "";
 echo "<table>";
@@ -134,7 +132,7 @@ echo "        <tr>";
 echo "            <th>Animal ID</th>";
 echo "            <th>Current Status</th>";
 echo "            <th>Birth Year</th>";
-echo "            <th>Species ID</th>";
+echo "            <th>Species Name</th>";
 echo "            <th>Cage ID</th>";
 echo "            <th>Building ID</th>";
 echo "            <th>Monthly Food Cost</th>";
@@ -145,7 +143,10 @@ echo "    <tbody>";
 
 
  
-$sql = "SELECT A.AID, A.status, A.BirthYear, A.SID, A.ENID, A.BID, FC.food_cost FROM Animal A JOIN species FC ON A.SID = FC.SID;";
+$sql = "SELECT A.AID, A.status, A.BirthYear, FC.name, A.ENID, A.BID, FC.food_cost 
+FROM Animal A 
+JOIN species FC ON A.SID = FC.SID 
+ORDER BY A.AID ASC;";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -153,7 +154,7 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row["AID"] . "</td>";
         echo "<td>" . htmlspecialchars($row["status"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["BirthYear"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["SID"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["name"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["BID"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["ENID"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["food_cost"]) . "</td>";

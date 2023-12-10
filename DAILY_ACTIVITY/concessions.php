@@ -75,8 +75,7 @@ echo "<table>";
 echo "    <thead>";
 echo "        <tr>";
 echo "            <th>Concessions ID</th>";
-echo "            <th>Item Name</th>";
-        
+echo "            <th>Concessions Name</th>";        
 echo "            <th>revenue</th>";
 echo "        </tr>";
 echo "    </thead>";
@@ -86,6 +85,7 @@ echo "    <tbody>";
 
 $sql = "SELECT
 r.RID,
+r.name,
 SUM( re.Revenue ) AS total_revenue,
 p.Product
 FROM
@@ -97,14 +97,15 @@ concession p ON re.RID = p.RID
 
 WHERE r.type ='concession'
 GROUP BY
-p.Product;";
+r.name
+ORDER BY r.RID;";
 
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . htmlspecialchars($row["RID"]) . "</td>";
-        echo "<td>" . htmlspecialchars($row["Product"]) . "</td>";
+        echo "<td>" . htmlspecialchars($row["name"]) . "</td>";
         echo "<td>" . htmlspecialchars($row["total_revenue"]) . "</td>";
 
 

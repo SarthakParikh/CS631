@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Best Days Report</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -78,7 +79,7 @@
     
                 // $dateTime = new DateTime($month);
                 //  $month1 = $dateTime->format('m');
-            echo $month;
+            // echo $month;
             $bestDays = [];
             $sql = "SELECT DATE(re.Date) AS Revenue_Date, SUM(re.Revenue) AS Total_Revenue FROM revenue_event re WHERE MONTH(re.Date) = '$month' AND YEAR(re.Date) = '$year' GROUP BY Revenue_Date ORDER BY Total_Revenue DESC LIMIT 5;";
            
@@ -110,6 +111,7 @@
     </nav>
 
     <h2>Best Days Report</h2>
+    <h3> Input month value as 1 - 12 </h3>
 
     <form method="post" action="">
         <label for="month">Select Month:</label>

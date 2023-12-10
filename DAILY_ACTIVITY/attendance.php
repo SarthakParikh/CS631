@@ -124,7 +124,7 @@ $sql = "SELECT
 re.RID AS Attendance_ID,
 CASE
     WHEN re.Revenue = za.adult_price THEN 'Adult'
-     WHEN re.Revenue = za.senior_price THEN 'Senior'
+    WHEN re.Revenue = za.senior_price THEN 'Senior'
     WHEN re.Revenue = za.child_price THEN 'Child'
     ELSE 'Unknown'
 END AS Attendance_Type,
