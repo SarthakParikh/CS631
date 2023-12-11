@@ -86,15 +86,11 @@ echo "    <tbody>";
 $sql = "SELECT
 r.RID,
 r.name,
-SUM( re.Revenue ) AS total_revenue,
-p.Product
+SUM( re.Revenue ) AS total_revenue
 FROM
 revenue_type r
 JOIN
 revenue_event re ON r.RID = re.RID
-JOIN
-concession p ON re.RID = p.RID
-
 WHERE r.type ='concession'
 GROUP BY
 r.name
